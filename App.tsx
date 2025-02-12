@@ -1,118 +1,324 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+/* eslint-disable react-native/no-inline-styles */
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, View, SafeAreaView, Pressable, Text, FlatList, Dimensions } from 'react-native';
+import Title from './components/Title/Title';
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import style from './assets/styles/main';
+import UserStory from './components/UserStory/UserStory';
+import UserPost from './components/UserPosts/UserPost';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+const App = () => {
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+  const data = [
+    {
+      firstName: 'John',
+      id: 1,
+    },
+    {
+      firstName: 'Kate',
+      id: 2,
+    },
+    {
+      firstName: 'Drake',
+      id: 3,
+    },
+    {
+      firstName: 'Dara',
+      id: 4,
+    },
+    {
+      firstName: 'Jesica',
+      id: 5,
+    },
+    {
+      firstName: 'Linda',
+      id: 6,
+    },
+    {
+      firstName: 'Dennis',
+      id: 7,
+    },
+    {
+      firstName: 'Dora',
+      id: 8,
+    },
+    {
+      firstName: 'Jenny',
+      id: 9,
+    },
+  ];
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  const posts = [
+    {
+      firstName: 'Alice',
+      LastName: 'Brush',
+      location: 'California  Los Angeles',
+      likes: 1210,
+      comments: 30,
+      bookmarks: 90,
+      id: 1,
+    },
+    {
+      firstName: 'John',
+      LastName: 'Doe',
+      location: 'California  Los Angeles',
+      likes: 1210,
+      comments: 30,
+      bookmarks: 90,
+      id: 2,
+    },
+    {
+      firstName: 'Kate',
+      LastName: 'Morgan',
+      location: 'California  Los Angeles',
+      likes: 1210,
+      comments: 30,
+      bookmarks: 90,
+      id: 3,
+    },
+    {
+      firstName: 'Drake',
+      LastName: 'Wills',
+      location: 'California  Los Angeles',
+      likes: 1210,
+      comments: 30,
+      bookmarks: 90,
+      id: 4,
+    },
+    {
+      firstName: 'Dara',
+      LastName: 'Brown',
+      location: 'California  Los Angeles',
+      likes: 1210,
+      comments: 30,
+      bookmarks: 90,
+      id: 5,
+    },
+    {
+      firstName: 'Jesica',
+      LastName: 'Morgan',
+      location: 'California  Los Angeles',
+      likes: 1210,
+      comments: 30,
+      bookmarks: 90,
+      id: 6,
+    },
+    {
+      firstName: 'Linda',
+      LastName: 'Wills',
+      location: 'California  Los Angeles',
+      likes: 1210,
+      comments: 30,
+      bookmarks: 90,
+      id: 7,
+    },
+    {
+      firstName: 'Dennis',
+      LastName: 'Brown',
+      location: 'California  Los Angeles',
+      likes: 1210,
+      comments: 30,
+      bookmarks: 90,
+      id: 8,
+    },
+    {
+      firstName: 'Dora',
+      LastName: 'Brown',
+      location: 'California  Los Angeles',
+      likes: 1210,
+      comments: 30,
+      bookmarks: 90,
+      id: 9,
+    },
+    {
+      firstName: 'Jenny',
+      LastName: 'Brown',
+      location: 'California  Los Angeles',
+      likes: 1210,
+      comments: 30,
+      bookmarks: 90,
+      id: 10,
+    },
+  ];
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  const pageSize = 4;
+  const [pageNumber, setPageNumber] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [renderedData, setRenderedData] = useState(data.slice(0, pageSize));
+
+  const pageSizePosts = 4;
+  const [postPageNumber, setPostPageNumber] = useState(1);
+  const [isLoadingPosts, setIsLoadingPosts] = useState(false);
+  const [renderedDataPosts, setRenderedDataPosts] = useState(posts.slice(0, pageSizePosts));
+
+  const [screenData, setScreenData] = useState(Dimensions.get('screen'));
+
+  console.log('Screen Data', screenData);
+
+  useEffect(() => {
+    Dimensions.addEventListener('change', (result) => {
+      console.log('change Screen Data', result.screen);
+      setScreenData(result.screen);
+    });
+  }, []);
+
+
+  const pagination = (userData, page, size, post = false) => {
+    let startIndex = (page - 1) * size;
+    //console.log('story', startIndex, renderedData.length);
+    console.log('post', startIndex, renderedDataPosts.length);
+
+    if (startIndex >= userData.length) {
+      return [];
+    }
+    if (!post) {
+      setPageNumber(page);
+    } else {
+      setPostPageNumber(page);
+    }
+    return userData.slice(startIndex, startIndex + size);
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+      <View style={{ flex: 1 }}>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={
+            <>
+              <View style={style.header}>
+                <Title title="Let's Explore" />
+                <Pressable style={style.messageIcon}>
+                  <FontAwesomeIcon icon={faEnvelope} color="#CACDDE" size={20} />
+                  <View style={style.messageNumberContainer}>
+                    <Text style={style.messageNumber}>2</Text>
+                  </View>
+                </Pressable>
+              </View>
+              <View style={style.userStoryContainer}>
+                <FlatList
+                  nestedScrollEnabled
+                  onMomentumScrollBegin={() => setIsLoading(false)}
+                  onEndReachedThreshold={0.5}
+                  keyExtractor={(item) => item.id.toString()}
+                  onEndReached={() => {
+                    if (!isLoading) {
+                      setIsLoading(true);
+                      setRenderedData(prev => [
+                        ...prev,
+                        ...pagination(data, pageNumber + 1, pageSize),
+                      ]);
+                      setIsLoading(false);
+                    }
+                  }}
+                  showsHorizontalScrollIndicator={false}
+                  horizontal={true}
+                  data={renderedData}
+                  renderItem={({ item }) => <UserStory firstname={item.firstName} />}
+                  contentContainerStyle={style.userStoryList}
+                  ItemSeparatorComponent={() => <View style={{ width: 13 }} />}
+                />
+              </View>
+            </>
+          }
+          data={renderedDataPosts}
+          renderItem={({ item }) => (
+            <UserPost
+              firstname={item.firstName}
+              lastname={item.LastName}
+              location={item.location}
+              comments={item.comments}
+              likes={item.likes}
+              bookmarks={item.bookmarks}
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+            />
+          )}
+          onMomentumScrollBegin={() => setIsLoadingPosts(false)}
+          onEndReachedThreshold={0.5}
+          keyExtractor={(item) => item.id.toString()}
+          onEndReached={() => {
+            if (!isLoadingPosts) {
+              setIsLoadingPosts(true);
+              setRenderedDataPosts(prev => [
+                ...prev,
+                ...pagination(posts, postPageNumber + 1, pageSizePosts, true),
+              ]);
+              setIsLoadingPosts(false);
+            }
+          }}
+        />
+      </View>
+    </SafeAreaView>
+    // <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }} >
+    //   <ScrollView showsVerticalScrollIndicator={false} >
+    //     <View style={style.header}>
+    //       <Title title="Let's Explore" />
+    //       <Pressable style={style.messageIcon}>
+    //         <FontAwesomeIcon icon={faEnvelope} color="#CACDDE" size={20} />
+    //         <View style={style.messageNumberContainer}>
+    //           <Text style={style.messageNumber}>2</Text>
+    //         </View>
+    //       </Pressable>
+    //     </View>
+    //     <View style={style.userStoryContainer}>
+    //       <FlatList
+    //         onMomentumScrollBegin={() => setIsLoading(false)}
+    //         onEndReachedThreshold={0.5}
+    //         keyExtractor={(item) => item.id.toString()}
+    //         onEndReached={() => {
+    //           if (!isLoading) {
+    //             setIsLoading(true);
+    //             setRenderedData(prev => [
+    //               ...prev,
+    //               ...pagination(data, pageNumber + 1, pageSize),
+    //             ]);
+    //             setIsLoading(false);
+    //           }
+    //         }}
+    //         showsHorizontalScrollIndicator={false}
+    //         horizontal={true}
+    //         data={renderedData}
+    //         renderItem={({ item }) => <UserStory firstname={item.firstName} />}
+    //         contentContainerStyle={style.userStoryList}
+    //         ItemSeparatorComponent={() => <View style={{ width: 13 }} />}
+    //       />
+    //     </View>
+    //     <View style={style.userPostContainer} >
+    //       <FlatList
+    //         onMomentumScrollBegin={() => setIsLoadingPosts(false)}
+    //         onEndReachedThreshold={0.5}
+    //         keyExtractor={(item) => item.id.toString()}
+    //         onEndReached={() => {
+    //           if (!isLoadingPosts) {
+    //             setIsLoadingPosts(true);
+    //             setRenderedDataPosts(prev => [
+    //               ...prev,
+    //               ...pagination(posts, postPageNumber + 1, pageSizePosts, true),
+    //             ]);
+    //             setIsLoadingPosts(false);
+    //           }
+    //         }}
+    //         showsVerticalScrollIndicator={false}
+    //         data={renderedDataPosts}
+    //         renderItem={({ item }) => (
+    //           <UserPost
+    //             firstname={item.firstName}
+    //             lastname={item.LastName}
+    //             location={item.location}
+    //             comments={item.comments}
+    //             likes={item.likes}
+    //             bookmarks={item.bookmarks}
+    //           />
+    //         )}
+    //       />
+    //     </View>
+    //   </ScrollView>
+    // </SafeAreaView>
+  );
+};
+
 
 export default App;
