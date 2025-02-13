@@ -1,5 +1,5 @@
 {
-  "name": "social_media_app",
+  "name": "AwesomeProject",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -24,6 +24,7 @@
     "react-native": "0.76.6",
     "react-native-device-info": "^14.0.4",
     "react-native-gesture-handler": "^2.23.1",
+    "react-native-masked-view": "^0.2.0",
     "react-native-reanimated": "^3.16.7",
     "react-native-safe-area-context": "^5.2.0",
     "react-native-screens": "^4.6.0",
