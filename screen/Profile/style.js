@@ -5,25 +5,26 @@ import {
   verticalScale,
 } from '../../assets/styles/scaling';
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   profileImageContainer: {
-    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
     justifyContent: 'center',
     marginTop: verticalScale(32),
   },
   profileImageContent: {
     borderWidth: 1,
-    padding: horizontalScale(3),
-    borderRadius: horizontalScale(150),
     borderColor: '#0150EC',
+    borderRadius: horizontalScale(120),
+    padding: horizontalScale(4),
   },
   profileImage: {
-    width: horizontalScale(100),
-    height: horizontalScale(100),
+    width: horizontalScale(120),
+    height: horizontalScale(120),
   },
   userName: {
     fontFamily: 'Inter',
-    fontWeight: 'bold',
+    fontWeight: '600',
     fontSize: scaleFontSize(20),
     lineHeight: scaleFontSize(24),
     color: '#022150',
@@ -34,29 +35,29 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: verticalScale(20),
   },
-  profileStatesContainer: {
+  profileStatsContainer: {
     marginHorizontal: horizontalScale(24),
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: verticalScale(16),
   },
-  singleStateContainer: {
-    paddingHorizontal: horizontalScale(18),
+  singleStatContainer: {
     alignItems: 'center',
+    paddingHorizontal: horizontalScale(18),
     paddingVertical: verticalScale(10),
   },
-  singleStateBorder: {
-    borderRightWidth: 1.2,
-    borderRightColor: '#E9EFF1',
+  singleStatBorder: {
+    borderRightWidth: 1,
+    borderColor: '#E9EFF1',
   },
-  singleStateNumber: {
+  singleStatNumber: {
     fontFamily: 'Inter',
-    fontWeight: 'bold',
+    fontWeight: '600',
     fontSize: scaleFontSize(20),
     lineHeight: scaleFontSize(24),
     color: '#022150',
   },
-  singleStateText: {
+  singleStatText: {
     marginTop: verticalScale(6),
     fontFamily: 'Inter',
     fontWeight: '400',
@@ -65,11 +66,11 @@ const styles = StyleSheet.create({
     color: '#79869F',
   },
   border: {
-    borderTopWidth: 1.2,
+    borderTopWidth: 1,
     borderColor: '#EFF2F6',
     marginVertical: verticalScale(16),
-    marginHorizontal: horizontalScale(24),
+    marginHorizontal: horizontalScale(28),
   },
 });
 
-export default styles;
+export default style;

@@ -2,11 +2,12 @@ import { SafeAreaView, View, Text, ScrollView, Image } from 'react-native';
 import React from 'react';
 import globalStyle from '../../assets/styles/main';
 import style from './style';
+import { ProfileTabNavigation } from '../../navigation/MainNavigation';
 
 const Profile = () => {
   return (
-    <SafeAreaView style={globalStyle.backgroundWhite}>
-      <ScrollView>
+    <SafeAreaView style={[globalStyle.backgroundWhite, globalStyle.flex]}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={style.profileImageContainer}>
           <View style={style.profileImageContent}>
             <Image
@@ -18,21 +19,25 @@ const Profile = () => {
         <View style={style.userNameContainer}>
           <Text style={style.userName}>Thornin Mornsambath</Text>
         </View>
-        <View style={style.profileStatesContainer}>
-          <View style={[style.singleStateContainer, style.singleStateBorder]}>
-            <Text style={style.singleStateNumber}>45</Text>
-            <Text style={style.singleStateText}>Following</Text>
+        <View style={style.profileStatsContainer}>
+          <View style={[style.singleStatContainer, style.singleStatBorder]}>
+            <Text style={style.singleStatNumber}>45</Text>
+            <Text style={style.singleStatText}>Following</Text>
           </View>
-          <View style={[style.singleStateContainer, style.singleStateBorder]}>
-            <Text style={style.singleStateNumber}>5M</Text>
-            <Text style={style.singleStateText}> Followers</Text>
+          <View style={[style.singleStatContainer, style.singleStatBorder]}>
+            <Text style={style.singleStatNumber}>5M</Text>
+            <Text style={style.singleStatText}> Followers</Text>
           </View>
-          <View style={style.singleStateContainer}>
-            <Text style={style.singleStateNumber}>15</Text>
-            <Text style={style.singleStateText}> Posts</Text>
+          <View style={style.singleStatContainer}>
+            <Text style={style.singleStatNumber}>15</Text>
+            <Text style={style.singleStatText}> Posts</Text>
           </View>
         </View>
         <View style={style.border} />
+
+        <View style={{ height: 550 }}>
+          <ProfileTabNavigation />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

@@ -195,7 +195,7 @@ const Home = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={globalStyle.backgroundWhite}>
+    <SafeAreaView style={[globalStyle.backgroundWhite, globalStyle.flex]}>
       <StatusBar barStyle="dark-content" backgroundColor="white" />
       <View style={{ flex: 1 }}>
         <FlatList
